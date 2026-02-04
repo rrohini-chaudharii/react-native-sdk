@@ -10,15 +10,13 @@ require Pod::Executable.execute_command('node', ['-p',
 platform :ios, min_ios_version_supported
 prepare_react_native_project!
 
-linkage = ENV['USE_FRAMEWORKS']
-if linkage != nil
-  Pod::UI.puts "Configuring Pod with #{linkage}ally linked Frameworks".green
-  # IMPORTANT: This is needed to use the Swift code from Iterable-iOS-SDK in the RNIterableAPI module
-  use_frameworks! :linkage => :dynamic
-end
+use_frameworks! :linkage => :static
 
 target 'ReactNativeSdkExample' do
   config = use_native_modules!
+
+  # Override iOS SDK with local path for testing
+  pod 'Iterable-iOS-SDK', :git => 'https://github.com/Iterable/iterable-swift-sdk', :branch => 'fix/SDK-290-Export-iOS-sdk-header-file'
 
   use_react_native!(
     :path => config[:reactNativePath],
