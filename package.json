@@ -18,6 +18,9 @@
     "android",
     "ios",
     "cpp",
+    "plugin/build",
+    "plugin/src",
+    "app.plugin.js",
     "*.podspec",
     "scripts/autoCreatePackageInfo.js",
     "scripts/createPackageInfoFile.js",
@@ -36,14 +39,16 @@
     "add_build_info": "node scripts/autoCreatePackageInfo.js",
     "example": "yarn workspace @iterable/react-native-sdk-example",
     "test": "jest",
+    "test:plugin": "cd plugin && jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "typecheck": "tsc",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
     "docs": "typedoc",
-    "clean": "del-cli android/build example/android/build example/android/app/build example/ios/build lib",
+    "clean": "del-cli android/build example/android/build example/android/app/build example/ios/build lib plugin/build",
     "prebuild": "yarn add_build_info",
-    "build": "yarn add_build_info && yarn bob build",
+    "build": "yarn add_build_info && yarn bob build && yarn build:plugin",
+    "build:plugin": "cd plugin && tsc",
     "prepare": "yarn build",
     "release": "release-it"
   },
@@ -69,6 +74,7 @@
   "devDependencies": {
     "@commitlint/config-conventional": "^19.6.0",
     "@evilmartians/lefthook": "^1.5.0",
+    "@expo/config-plugins": "^9.0.0",
     "@react-native-community/cli": "18.0.0",
     "@react-native/babel-preset": "0.79.3",
     "@react-native/eslint-config": "0.79.3",
@@ -79,6 +85,7 @@
     "@testing-library/jest-native": "^5.4.3",
     "@testing-library/react-native": "^13.3.3",
     "@types/jest": "^29.5.5",
+    "@types/node": "^20.0.0",
     "@types/react": "^19.0.0",
     "@typescript-eslint/eslint-plugin": "^8.13.0",
     "@typescript-eslint/parser": "^8.13.0",
@@ -101,6 +108,7 @@
     "react-native-webview": "^13.14.1",
     "react-test-renderer": "19.0.0",
     "release-it": "^17.10.0",
+    "ts-jest": "^29.1.0",
     "turbo": "^1.10.7",
     "typedoc": "^0.28.13",
     "typedoc-plugin-coverage": "^3.3.0",
@@ -118,9 +126,17 @@
     "react-native-webview": "*"
   },
   "peerDependenciesMeta": {
+    "@expo/config-plugins": {
+      "optional": true
+    },
     "expo": {
       "optional": true
     }
+  },
+  "expo": {
+    "plugins": [
+      "./app.plugin.js"
+    ]
   },
   "sideEffects": false,
   "workspaces": [
