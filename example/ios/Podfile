@@ -16,8 +16,8 @@ target 'ReactNativeSdkExample' do
   config = use_native_modules!
 
   # Override iOS SDK with local path for testing
-  pod 'Iterable-iOS-SDK', :git => 'https://github.com/Iterable/iterable-swift-sdk', :branch => 'fix/SDK-290-Export-iOS-sdk-header-file'
-
+  #pod 'Iterable-iOS-SDK', :git => 'https://github.com/Iterable/iterable-swift-sdk', :branch => 'fix/SDK-290-Export-iOS-sdk-header-file'
+  pod 'Iterable-iOS-SDK', :path => '../../../iterable-swift-sdk'
   use_react_native!(
     :path => config[:reactNativePath],
     # An absolute path to your application root.

@@ -24,6 +24,7 @@ Pod::Spec.new do |s|
     'DEFINES_MODULE'      => 'YES',
     'CLANG_ENABLE_MODULES' => 'YES',
     'SWIFT_VERSION'       => '5.0',
+    'SWIFT_OBJC_INTERFACE_HEADER_NAME' => 'Iterable_React_Native_SDK-Swift.h',
     "CLANG_CXX_LANGUAGE_STANDARD" => rct_cxx_language_standard(),
   }
 
