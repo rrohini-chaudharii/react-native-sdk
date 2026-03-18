@@ -1,4 +1,4 @@
-import type { TurboModule } from 'react-native';
+import type { TurboModule, UnsafeObject } from 'react-native';
 import { TurboModuleRegistry } from 'react-native';
 
 // NOTE: No types can be imported because of the way new arch works, so we have
@@ -12,17 +12,19 @@ interface EmbeddedMessage {
   };
   elements: {
     buttons?:
-      | {
+      | ReadonlyArray<{
           id: string;
           title?: string | null;
           action: { type: string; data?: string } | null;
-        }[]
+        }>
       | null;
     body?: string | null;
     mediaUrl?: string | null;
     mediaUrlCaption?: string | null;
     defaultAction?: { type: string; data?: string } | null;
-    text?: { id: string; text?: string | null; label?: string | null }[] | null;
+    text?:
+      | ReadonlyArray<{ id: string; text?: string | null; label?: string | null }>
+      | null;
     title?: string | null;
   } | null;
   payload?: { [key: string]: string | number | boolean | null } | null;
@@ -32,13 +34,13 @@ export interface Spec extends TurboModule {
   // Initialization
   initializeWithApiKey(
     apiKey: string,
-    config: { [key: string]: string | number | boolean | undefined | string[] },
+    config: UnsafeObject,
     version: string
   ): Promise<boolean>;
 
   initialize2WithApiKey(
     apiKey: string,
-    config: { [key: string]: string | number | boolean | undefined | string[] },
+    config: UnsafeObject,
     version: string,
     apiEndPointOverride: string
   ): Promise<boolean>;
@@ -51,8 +53,12 @@ export interface Spec extends TurboModule {
 
   // In-app messaging
   setInAppShowResponse(number: number): void;
-  getInAppMessages(): Promise<{ [key: string]: string | number | boolean }[]>;
-  getInboxMessages(): Promise<{ [key: string]: string | number | boolean }[]>;
+  getInAppMessages(): Promise<
+    ReadonlyArray<{ [key: string]: string | number | boolean }>
+  >;
+  getInboxMessages(): Promise<
+    ReadonlyArray<{ [key: string]: string | number | boolean }>
+  >;
   getUnreadInboxMessagesCount(): Promise<number>;
   showMessage(messageId: string, consume: boolean): Promise<string | null>;
   removeMessage(messageId: string, location: number, source: number): void;
@@ -86,10 +92,12 @@ export interface Spec extends TurboModule {
   inAppConsume(messageId: string, location: number, source: number): void;
 
   // Commerce
-  updateCart(items: { [key: string]: string | number | boolean }[]): void;
+  updateCart(
+    items: ReadonlyArray<{ [key: string]: string | number | boolean }>
+  ): void;
   trackPurchase(
     total: number,
-    items: { [key: string]: string | number | boolean }[],
+    items: ReadonlyArray<{ [key: string]: string | number | boolean }>,
     dataFields?: { [key: string]: string | number | boolean }
   ): void;
 
@@ -124,21 +132,21 @@ export interface Spec extends TurboModule {
 
   // Subscriptions
   updateSubscriptions(
-    emailListIds: number[] | null,
-    unsubscribedChannelIds: number[] | null,
-    unsubscribedMessageTypeIds: number[] | null,
-    subscribedMessageTypeIds: number[] | null,
+    emailListIds: ReadonlyArray<number> | null,
+    unsubscribedChannelIds: ReadonlyArray<number> | null,
+    unsubscribedMessageTypeIds: ReadonlyArray<number> | null,
+    subscribedMessageTypeIds: ReadonlyArray<number> | null,
     campaignId: number,
     templateId: number
   ): void;
 
   // Session tracking
   startSession(
-    visibleRows: { [key: string]: string | number | boolean }[]
+    visibleRows: ReadonlyArray<{ [key: string]: string | number | boolean }>
   ): void;
   endSession(): void;
   updateVisibleRows(
-    visibleRows: { [key: string]: string | number | boolean }[]
+    visibleRows: ReadonlyArray<{ [key: string]: string | number | boolean }>
   ): void;
 
   // Auth
@@ -152,8 +160,8 @@ export interface Spec extends TurboModule {
   startEmbeddedImpression(messageId: string, placementId: number): void;
   pauseEmbeddedImpression(messageId: string): void;
   getEmbeddedMessages(
-    placementIds: number[] | null
-  ): Promise<EmbeddedMessage[]>;
+    placementIds: ReadonlyArray<number> | null
+  ): Promise<ReadonlyArray<EmbeddedMessage>>;
   trackEmbeddedClick(
     message: EmbeddedMessage,
     buttonId: string | null,
