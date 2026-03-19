@@ -427,9 +427,7 @@ import React
       unsubscribedMessageTypeIds: unsubscribedMessageTypeIds,
       subscribedMessageTypeIds: subscribedMessageTypeIds,
       campaignId: finalCampaignId,
-      templateId: finalTemplateId,
-      onSuccess: nil,
-      onFailure: nil)
+      templateId: finalTemplateId)
   }
 
   @objc(setReadForMessage:read:)
@@ -494,7 +492,7 @@ import React
   @objc(pauseAuthRetries:)
   public func pauseAuthRetries(pauseRetry: Bool) {
     ITBInfo()
-    IterableAPI.pauseAuthRetries(pauseRetry)
+    // IterableAPI.pauseAuthRetries not available in Iterable-iOS-SDK 6.5.4.1; no-op for compatibility.
   }
 
   // MARK: - SDK Embedded Messaging Functions
@@ -774,7 +772,7 @@ extension ReactIterableAPI: IterableInAppDelegate {
 }
 
 extension ReactIterableAPI: IterableAuthDelegate {
-  public func onAuthFailure(_ authFailure: IterableSDK.AuthFailure) {
+  public func onAuthFailure(_ authFailure: AuthFailure) {
     ITBInfo()
 
     var failureDict: [String: Any] = [:]
