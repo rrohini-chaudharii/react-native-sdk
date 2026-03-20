@@ -44,6 +44,7 @@
     "clean": "del-cli android/build example/android/build example/android/app/build example/ios/build lib",
     "prebuild": "yarn add_build_info",
     "build": "yarn add_build_info && yarn bob build",
+    "prepare": "yarn build",
     "release": "release-it"
   },
   "keywords": [
