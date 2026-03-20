@@ -805,7 +805,7 @@ extension ReactIterableAPI: IterableAuthDelegate {
     }
   }
 
-  public func onAuthFailure(_ authFailure: AuthFailure) {
+  public func onAuthFailure(_ authFailure: IterableSDK.AuthFailure) {
     ITBInfo()
     guard shouldEmit else {
       return

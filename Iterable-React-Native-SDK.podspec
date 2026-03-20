@@ -16,8 +16,10 @@ Pod::Spec.new do |s|
   s.source_files = "ios/**/*.{h,m,mm,cpp,swift}"
   s.private_header_files = "ios/**/*.h"
 
-  # Load Iterables iOS SDK as a dependency
-  s.dependency "Iterable-iOS-SDK", "6.6.7"
+  # Iterable-iOS-SDK 6.6.7+ required: IterableAuthDelegate.onAuthFailure(AuthFailure),
+  # IterableAPI.updateSubscriptions(..., onSuccess:onFailure:), etc.
+  # Pin the minor line so CocoaPods does not resolve an older 6.5.x when another pod is loose.
+  s.dependency "Iterable-iOS-SDK", "~> 6.6.7"
 
   # Basic Swift support
   s.pod_target_xcconfig = {
