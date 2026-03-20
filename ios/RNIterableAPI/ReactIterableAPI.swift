@@ -427,7 +427,9 @@ import React
       unsubscribedMessageTypeIds: unsubscribedMessageTypeIds,
       subscribedMessageTypeIds: subscribedMessageTypeIds,
       campaignId: finalCampaignId,
-      templateId: finalTemplateId)
+      templateId: finalTemplateId,
+      onSuccess: nil as OnSuccessHandler?,
+      onFailure: nil as OnFailureHandler?)
   }
 
   @objc(setReadForMessage:read:)
